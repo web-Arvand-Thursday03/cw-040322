@@ -2,18 +2,16 @@
 include "includes/db.php";
 include "includes/layout/header.php";
 
-// var_dump($_GET['search']);
+
+// var_dump($_GET);
 if (isset($_GET['search'])) {
   $searchWord = $_GET['search'];
   $stmt = $connection->query("SELECT posts.*,categories.title AS category_title 
-                              FROM posts,categories
-                              WHERE categories.id=posts.category_id AND posts.title LIKE '%$searchWord%'");
+                              FROM posts,categories 
+                              WHERE posts.category_id=categories.id AND posts.title LIKE '%$searchWord%'");
   $posts = $stmt->fetchAll();
   // var_dump($posts);
 }
-
-
-
 
 
 ?>
@@ -26,7 +24,7 @@ if (isset($_GET['search'])) {
       <div class="col-lg-8">
         <div class="row">
           <div class="col">
-            <div class="alert alert-secondary">پست های مرتبط با کلمه [ <?= $_GET['search'] ?? "..." ?> ]</div>
+            <div class="alert alert-secondary">پست های مرتبط با کلمه [ <?= $_GET['search'] ?> ]</div>
           </div>
         </div>
         <?php if (empty($posts)): ?>
@@ -45,11 +43,10 @@ if (isset($_GET['search'])) {
                       </div>
                     </div>
                     <p class="card-text text-secondary pt-3">
-                      <?= mb_substr($post['body'], 0, 170, "utf-8") . "...."  ?>
+                      <?= mb_substr($post['body'], 0, 170, 'utf-8') . "..."  ?>
                     </p>
                     <div class="d-flex justify-content-between align-items-center">
-                      <a href="single.html" class="btn btn-sm btn-dark">مشاهده</a>
-
+                      <a href="single.php?id=<?= $post['id'] ?>" class="btn btn-sm btn-dark">مشاهده</a>
                       <p class="fs-7 mb-0">نویسنده : <?= $post['author'] ?></p>
                     </div>
                   </div>
@@ -62,7 +59,6 @@ if (isset($_GET['search'])) {
 
       <!-- Sidebar Section -->
       <?php include "includes/layout/sidebar.php"; ?>
-
     </div>
   </section>
 </main>

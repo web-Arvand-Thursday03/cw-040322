@@ -13,12 +13,10 @@ if (isset($_GET['id'])) {
   // var_dump($post);
 }
 
-$stmt = $connection->query("SELECT * FROM comments WHERE post_id=$postId");
-$commentCounts=$stmt->rowCount();
-$comments = $stmt->fetchAll();
-// var_dump($comments);
-var_dump($commentCounts);
 
+$stmt = $connection->query("SELECT * FROM comments WHERE post_id=$postId AND status=1");
+$commentCount = $stmt->rowCount();
+$comments = $stmt->fetchAll();
 
 
 
@@ -78,43 +76,24 @@ var_dump($commentCounts);
 
               <hr class="mt-4" />
               <!-- Comment Content -->
-              <p class="fw-bold fs-6">تعداد کامنت : <?= $commentCounts ?></p>
+              <p class="fw-bold fs-6">تعداد کامنت : <?= $commentCount ?></p>
+              <?php if ($commentCount == 0): ?>
+                <div class="alert alert-success"><span>شما اولین نظر دهنده باشید</span></div>
+              <?php else: ?>
+                <?php foreach ($comments as $comment): ?>
+                  <div class="card bg-light-subtle mb-3">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
 
-              <div class="card bg-light-subtle mb-3">
-                <div class="card-body">
-                  <div class="d-flex align-items-center">
-                    <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
+                        <h5 class="card-title me-2 mb-0"><?= $comment['name'] ?></h5>
+                      </div>
 
-                    <h5 class="card-title me-2 mb-0">محمد صالحی</h5>
+                      <p class="card-text pt-3 pr-3"><?= $comment['comment'] ?></p>
+                    </div>
                   </div>
-
-                  <p class="card-text pt-3 pr-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است.</p>
-                </div>
-              </div>
-
-              <div class="card bg-light-subtle mb-3">
-                <div class="card-body">
-                  <div class="d-flex align-items-center">
-                    <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
-
-                    <h5 class="card-title me-2 mb-0">متین سیدی</h5>
-                  </div>
-
-                  <p class="card-text pt-3 pr-3">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ</p>
-                </div>
-              </div>
-
-              <div class="card bg-light-subtle mb-3">
-                <div class="card-body">
-                  <div class="d-flex align-items-center">
-                    <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
-
-                    <h5 class="card-title me-2 mb-0">زهرا عزیزی</h5>
-                  </div>
-
-                  <p class="card-text pt-3 pr-3">لورم ایپسوم متن ساختگی با تولید سادگی</p>
-                </div>
-              </div>
+                <?php endforeach ?>
+              <?php endif ?>
             </div>
           </div>
         </div>

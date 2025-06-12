@@ -2,27 +2,25 @@
 include "includes/db.php";
 include "includes/layout/header.php";
 
+
 if (isset($_GET['id'])) {
   $id = $_GET['id'];
   $stmt = $connection->query("SELECT posts.*,categories.title AS category_title 
                               FROM posts,categories 
-                              WHERE posts.category_id=categories.id AND category_id=$id
-                            ");
+                              WHERE posts.category_id=categories.id AND category_id=$id");
   $posts = $stmt->fetchAll();
 } else {
   $stmt = $connection->query("SELECT posts.*,categories.title AS category_title 
-                              FROM posts,categories 
-                              WHERE posts.category_id=categories.id
-                              ORDER BY id DESC
-                              LIMIT 10 ");
+                            FROM posts,categories 
+                            WHERE posts.category_id=categories.id
+                            ORDER BY id DESC
+                            LIMIT 10 ");
   $posts = $stmt->fetchAll();
-  // var_dump($posts);
-
 }
 
-// var_dump($_GET);
 
 
+// var_dump($posts);
 ?>
 
 <main>

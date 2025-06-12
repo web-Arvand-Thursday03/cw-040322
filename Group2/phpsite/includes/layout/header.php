@@ -4,7 +4,7 @@ $stmt = $connection->query("SELECT * FROM categories");
 $categories = $stmt->fetchAll();
 
 // var_dump($categories[1]['title]);
-// var_dump($_POST);
+
 ?>
 <!DOCTYPE html>
 <html dir="rtl" lang="fa">
@@ -15,11 +15,12 @@ $categories = $stmt->fetchAll();
     <title>&#128142; compidan.ir &#128142;</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-    <link
+    <!-- <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
         rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
-        crossorigin="anonymous" />
+        crossorigin="anonymous" /> -->
+    <link rel="stylesheet" href="../../assets/css/bootstrap.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
 </head>
 
