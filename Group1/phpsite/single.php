@@ -20,6 +20,26 @@ $comments = $stmt->fetchAll();
 
 
 
+$invalidName = "";
+$invalidComment = "";
+$successCommentInsert = "";
+if (isset($_POST['insertComment'])) {
+  $name = $_POST['name'];
+  $newcomment = $_POST['comment'];
+  if (empty($name)) {
+    $invalidName = "فیلد نام خالی است";
+  }
+  if (empty($newcomment)) {
+    $invalidComment = "فیلد کامنت خالی است";
+  }
+
+  if (!empty($name) && !empty($newcomment)) {
+    $stmt = $connection->query("INSERT INTO comments (name,comment,post_id,status) 
+                                VALUES ('$name','$newcomment','$postId',0)");
+    $successCommentInsert = "نظر شما بعد از بررسی منتشر خواهد شد";
+  }
+}
+
 ?>
 
 <main>
@@ -60,16 +80,20 @@ $comments = $stmt->fetchAll();
                 <div class="card-body">
                   <p class="fw-bold fs-5">ارسال کامنت</p>
 
-                  <form>
+                  <form action="" method="post">
                     <div class="mb-3">
                       <label class="form-label">نام</label>
-                      <input type="text" class="form-control" />
+                      <input type="text" class="form-control" name="name" />
+                      <div class="small text-danger"><?= $invalidName ?></div>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">متن کامنت</label>
-                      <textarea class="form-control" rows="3"></textarea>
+                      <textarea class="form-control" rows="3" name="comment"></textarea>
+                      <div class="small text-danger"><?= $invalidComment ?></div>
                     </div>
-                    <button type="submit" class="btn btn-dark">ارسال</button>
+                    <button type="submit" class="btn btn-dark" name="insertComment">ارسال</button>
+                    <div class="small text-success"><?= $successCommentInsert; ?>
+                    </div>
                   </form>
                 </div>
               </div>

@@ -14,11 +14,6 @@ if (isset($_GET['id'])) {
 }
 
 
-$stmt = $connection->query("SELECT * FROM comments WHERE post_id=$postId AND status=1");
-$commentCount = $stmt->rowCount();
-$comments = $stmt->fetchAll();
-
-
 
 ?>
 
@@ -76,24 +71,42 @@ $comments = $stmt->fetchAll();
 
               <hr class="mt-4" />
               <!-- Comment Content -->
-              <p class="fw-bold fs-6">تعداد کامنت : <?= $commentCount ?></p>
-              <?php if ($commentCount == 0): ?>
-                <div class="alert alert-success"><span>شما اولین نظر دهنده باشید</span></div>
-              <?php else: ?>
-                <?php foreach ($comments as $comment): ?>
+              <p class="fw-bold fs-6">تعداد کامنت : 3</p>
+             
                   <div class="card bg-light-subtle mb-3">
                     <div class="card-body">
                       <div class="d-flex align-items-center">
                         <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
 
-                        <h5 class="card-title me-2 mb-0"><?= $comment['name'] ?></h5>
+                        <h5 class="card-title me-2 mb-0">محمد غلامی</h5>
                       </div>
 
-                      <p class="card-text pt-3 pr-3"><?= $comment['comment'] ?></p>
+                      <p class="card-text pt-3 pr-3">متن کامنت</p>
                     </div>
                   </div>
-                <?php endforeach ?>
-              <?php endif ?>
+				  <div class="card bg-light-subtle mb-3">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
+
+                        <h5 class="card-title me-2 mb-0">معصومه هاشمی</h5>
+                      </div>
+
+                      <p class="card-text pt-3 pr-3">متن کامنت</p>
+                    </div>
+                  </div>
+				  <div class="card bg-light-subtle mb-3">
+                    <div class="card-body">
+                      <div class="d-flex align-items-center">
+                        <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
+
+                        <h5 class="card-title me-2 mb-0"> حسین منصوری</h5>
+                      </div>
+
+                      <p class="card-text pt-3 pr-3">متن کامنت</p>
+                    </div>
+                  </div>
+                
             </div>
           </div>
         </div>
