@@ -13,7 +13,32 @@ if (isset($_GET['id'])) {
   // var_dump($post);
 }
 
+$stmt = $connection->query("SELECT * FROM comments WHERE post_id=$postId AND status=1");
+$commentCount = $stmt->rowCount();
+$comments = $stmt->fetchAll();
 
+// var_dump($_POST);
+
+$invalidName = "";
+$invalidText = "";
+$successfullInsert = "";
+
+if (isset($_POST['insertComment'])) {
+  $name = $_POST['name'];
+  $newComment = $_POST['comment'];
+  if (empty($name)) {
+    $invalidName = "وارد کردن نام الزامیست";
+  }
+  if (empty($newComment)) {
+    $invalidText = "وارد کردن کامنت الزامیست";
+  }
+
+  if (!empty($name) && !empty($newComment)) {
+    $stmt = $connection->query("INSERT INTO comments (name,comment,post_id,status) 
+                           VAlUES ('$name','$newComment','$postId',0)");
+    $successfullInsert = "با تشکر! کامنت شما پس از تایید منتشر خواهد شد";
+  }
+}
 
 ?>
 
@@ -55,58 +80,43 @@ if (isset($_GET['id'])) {
                 <div class="card-body">
                   <p class="fw-bold fs-5">ارسال کامنت</p>
 
-                  <form>
+                  <form action="" method="post">
                     <div class="mb-3">
                       <label class="form-label">نام</label>
-                      <input type="text" class="form-control" />
+                      <input type="text" class="form-control" name="name" />
+                      <div class="text-danger small"><?= $invalidName ?></div>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">متن کامنت</label>
-                      <textarea class="form-control" rows="3"></textarea>
+                      <textarea class="form-control" rows="3" name="comment"></textarea>
+                      <div class="text-danger small"><?= $invalidText ?></div>
                     </div>
-                    <button type="submit" class="btn btn-dark">ارسال</button>
+                    <button type="submit" class="btn btn-dark" name="insertComment">ارسال</button>
+                    <div class="text-success small"><?= $successfullInsert ?></div>
                   </form>
                 </div>
               </div>
 
               <hr class="mt-4" />
               <!-- Comment Content -->
-              <p class="fw-bold fs-6">تعداد کامنت : 3</p>
-             
+              <p class="fw-bold fs-6">تعداد کامنت : <?= $commentCount ?></p>
+              <?php if ($commentCount == 0): ?>
+                <div class="alert alert-success">شما نخستین فردی باشید که نظر میدهد</div>
+              <?php else: ?>
+                <?php foreach ($comments as $comment): ?>
                   <div class="card bg-light-subtle mb-3">
                     <div class="card-body">
                       <div class="d-flex align-items-center">
                         <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
 
-                        <h5 class="card-title me-2 mb-0">محمد غلامی</h5>
+                        <h5 class="card-title me-2 mb-0"><?= $comment['name'] ?></h5>
                       </div>
 
-                      <p class="card-text pt-3 pr-3">متن کامنت</p>
+                      <p class="card-text pt-3 pr-3"><?= $comment['comment'] ?></p>
                     </div>
                   </div>
-				  <div class="card bg-light-subtle mb-3">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
-
-                        <h5 class="card-title me-2 mb-0">معصومه هاشمی</h5>
-                      </div>
-
-                      <p class="card-text pt-3 pr-3">متن کامنت</p>
-                    </div>
-                  </div>
-				  <div class="card bg-light-subtle mb-3">
-                    <div class="card-body">
-                      <div class="d-flex align-items-center">
-                        <img src="./assets/images/profile.png" width="45" height="45" alt="user-profle" />
-
-                        <h5 class="card-title me-2 mb-0"> حسین منصوری</h5>
-                      </div>
-
-                      <p class="card-text pt-3 pr-3">متن کامنت</p>
-                    </div>
-                  </div>
-                
+                <?php endforeach ?>
+              <?php endif ?>
             </div>
           </div>
         </div>
