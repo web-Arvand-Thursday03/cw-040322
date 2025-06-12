@@ -18,11 +18,24 @@ $commentCount = $stmt->rowCount();
 $comments = $stmt->fetchAll();
 // var_dump($comments);
 
+
+$invalidName = "";
+$invalidComment = "";
+$successfullInsert ="";
 if (isset($_POST['insertComment'])) {
   $name = $_POST['name'];
   $newComment = $_POST['commentBody'];
-  $stmt = $connection->query("INSERT INTO comments (name,comment,post_id,status) 
+  if (empty($name)) {
+    $invalidName = "فیلد نام خالی است";
+  }
+  if (empty($newComment)) {
+    $invalidComment = "فیلد کامنت خالی است";
+  }
+  if (!empty($name) && !empty($newComment)) {
+    $stmt = $connection->query("INSERT INTO comments (name,comment,post_id,status) 
                            VALUES ('$name','$newComment','$postId',0) ");
+    $successfullInsert = "با سپاس! کامنت شما پس از تایید منتشر خواهد شد";
+  }
 }
 
 
@@ -71,12 +84,15 @@ if (isset($_POST['insertComment'])) {
                     <div class="mb-3">
                       <label class="form-label">نام</label>
                       <input type="text" class="form-control" name="name" />
+                      <div class="text-danger small"><?= $invalidName ?></div>
                     </div>
                     <div class="mb-3">
                       <label class="form-label">متن کامنت</label>
                       <textarea class="form-control" rows="4" name="commentBody"></textarea>
+                      <div class="text-danger small"><?= $invalidComment ?></div>
                     </div>
                     <button type="submit" class="btn btn-dark" name="insertComment">ارسال</button>
+                    <div class="text-success small"><?= $successfullInsert  ?></div>
                   </form>
                 </div>
               </div>
